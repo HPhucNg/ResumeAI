@@ -1,13 +1,16 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+// import { withClerkMiddleware } from "@clerk/nextjs"; // remove this line
 
-const isProtectedRoute = createRouteMatcher(["/dashboard", "/my-resume/:resumeId/edit"]);
+// export default withClerkMiddleware((req, res) => {
+//   // ... existing code ...
+// });
 
-export default clerkMiddleware((auth, request) => {
-  if (isProtectedRoute(request)) {
-    auth().protect();
-  }
-});
+import { NextResponse } from 'next/server';
 
-export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
-};
+export function middleware(req) {
+  // You can perform any checks or logic here
+  // For example, logging the request URL
+  console.log('Request URL:', req.url);
+
+  // Allow all requests by returning NextResponse.next()
+  return NextResponse.next();
+}

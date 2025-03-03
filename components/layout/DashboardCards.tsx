@@ -3,17 +3,15 @@
 import AddResume from "@/components/common/AddResume";
 import ResumeCard from "@/components/common/ResumeCard";
 import { fetchUserResumes } from "@/lib/actions/resume.actions";
-import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useState } from "react";
 
 const DashboardCards = () => {
-  const user = useUser();
-  const userId = user?.user?.id;
   const [resumeList, setResumeList] = useState(null as any);
+  const userId = ""; // Provide a default value or handle as needed
 
   const loadResumeData = async () => {
     try {
-      const resumeData = await fetchUserResumes(userId || "");
+      const resumeData = await fetchUserResumes(userId);
 
       setResumeList(JSON.parse(resumeData as any));
     } catch (error) {
@@ -22,8 +20,8 @@ const DashboardCards = () => {
   };
 
   useEffect(() => {
-    user?.isSignedIn && loadResumeData();
-  }, [user?.isLoaded]);
+    loadResumeData();
+  }, []);
 
   return (
     <>
